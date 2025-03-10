@@ -1,26 +1,18 @@
 import { StyledHeader3 } from "../../App.styled";
-import type { MarksData } from "../../types";
 import Button from "../Button/Button";
 import Marks from "../Marks/Marks";
 import { StyledMarksContainer } from "./MarksContainer.styled";
-import { useEffect, useState } from "react";
+import useFetchMarks from "./useFetchMarks";
 
 const MarksContainer = () => {
-	const [data, setData] = useState<MarksData[]>([]);
-
-	useEffect(() => {
-		fetch("/data.json")
-			.then((response) => response.json())
-			.then((data) => setData(data))
-			.catch((error) => console.error("Error fetching data:", error));
-	}, []);
+	const { marks } = useFetchMarks();
 
 	return (
 		<StyledMarksContainer>
 			<StyledHeader3>Summary</StyledHeader3>
             <ul>
-                {data.map((marks) => (
-                    <Marks marks={marks} key={marks.category} />
+                {marks.map((mark) => (
+                    <Marks marks={mark} key={mark.category} />
                 ))}
             </ul>
 			<Button />
