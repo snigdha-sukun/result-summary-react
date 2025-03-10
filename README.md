@@ -14,9 +14,6 @@ This is a solution to the [Results summary component challenge on Frontend Mento
   - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
-
-**Note: Delete this note and update the table of contents based on what sections you keep.**
 
 ## Overview
 
@@ -30,15 +27,7 @@ Users should be able to:
 
 ### Screenshot
 
-![Screenshot of the results summary component](./screenshot.jpg)
-
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it.
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
+![Screenshot of the results summary component](./screenshot.gif)
 
 ### Links
 
@@ -49,64 +38,202 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### Built with
 
-- Semantic HTML5 markup
-- CSS custom properties
-- Flexbox
-- CSS Grid
-- Mobile-first workflow
+- Vite
 - [React](https://reactjs.org/) - JS library
-- [Next.js](https://nextjs.org/) - React framework
 - [Styled Components](https://styled-components.com/) - For styles
+- Flexbox
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+I learned how to scaffold a project using Vite:
 
-To see how you can add code snippets, see below:
-
-```html
-<h1>Some HTML code I'm proud of</h1>
+```bash
+npm create vite@latest
 ```
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
+I learned how to write css in ts file by using `styled-components`
+
+I learned how to add global styles using `createGlobalStyle` from `styled-components`
+
+I learned how to setup a theme using `styled-components`:
+
+```ts
+export const theme = {
+ colors: {
+  lightRed: "hsl(0, 100%, 67%)",
+  orangeyYellow: "hsl(39, 100%, 56%)",
+  greenTeal: "hsl(166, 100%, 37%)",
+  cobaltBlue: "hsl(234, 85%, 45%)",
+  lightSlateBlueBackground: "hsl(252, 100%, 67%)",
+  lightRoyalBlueBackground: "hsl(241, 81%, 54%)",
+  violetBlueCircle: "hsla(256, 72%, 46%, 1)",
+  persianBlueCircle: "hsla(241, 72%, 46%, 0)",
+  white: "hsl(0, 0%, 100%)",
+  paleBlue: "hsl(221, 100%, 96%)",
+  lightLavender: "hsl(241, 100%, 89%)",
+  darkGrayBlue: "hsl(224, 30%, 27%)",
+  lightGrayBlue: "hsl(224, 30%, 27%, 0.5)",
+  lightRedBg: "hsla(0, 100%, 67%, 0.05)",
+  orangeyYellowBg: "hsla(39, 100%, 56%, 0.05)",
+  greenTealBg: "hsla(166, 100%, 37%, 0.05)",
+  cobaltBlueBg: "hsla(234, 85%, 45%, 0.05)",
+ },
+ fontSizes: {
+  base: "18px",
+ },
+ fontWeights: {
+  base: 500,
+  bold: 700,
+  bolder: 800,
+ },
+};
+```
+
+```ts
+import "styled-components";
+
+declare module "styled-components" {
+ export interface DefaultTheme {
+  colors: {
+   lightRed: string;
+   orangeyYellow: string;
+   greenTeal: string;
+   cobaltBlue: string;
+   lightSlateBlueBackground: string;
+   lightRoyalBlueBackground: string;
+   violetBlueCircle: string;
+   persianBlueCircle: string;
+   white: string;
+   paleBlue: string;
+   lightLavender: string;
+   darkGrayBlue: string;
+   lightGrayBlue: string;
+   lightRedBg: string;
+   orangeyYellowBg: string;
+   greenTealBg: string;
+   cobaltBlueBg: string;
+  };
+  fontSizes: {
+   base: string;
+  };
+  fontWeights: {
+   base: number;
+   bold: number;
+   bolder: number;
+  };
+ }
 }
 ```
 
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
+```tsx
+import { GlobalStyles } from "./globalStyles";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./theme";
+
+function App() {
+ return (
+  <ThemeProvider theme={theme}>
+   <GlobalStyles />
+   <StyledContainer>
+    <ResultContainer />
+    <MarksContainer />
+   </StyledContainer>
+  </ThemeProvider>
+ );
 }
+
+export default App;
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+I learned how to create mixins using `styled-components`:
 
-**Note: Delete this note and the content within this section and replace with your own learnings.**
+```ts
+import { css } from "styled-components";
+
+export const tablet = (styles: TemplateStringsArray) => css`
+  @media (max-width: 768px) {
+    ${styles}
+  }
+`;
+
+export const mobile = (styles: TemplateStringsArray) => css`
+  @media (max-width: 480px) {
+    ${styles}
+  }
+`;
+```
+
+I learned how to add gradient background:
+
+```ts
+export const StyledResultContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 2rem;
+    border-radius: 2rem;
+    width: 25rem;
+    background-image: linear-gradient(
+    ${({ theme }) => theme.colors.lightSlateBlueBackground},
+    ${({ theme }) => theme.colors.lightRoyalBlueBackground}
+  );
+    color: ${({ theme }) => theme.colors.lightLavender};
+
+    ${mobile`
+        border-radius: 0 0 2rem 2rem;
+      `}
+`;
+```
+
+I learned how to create React Hook for fetching data:
+
+```ts
+import { useEffect, useState } from "react";
+import type { MarksData } from "../../types";
+
+const useFetchMarks = () => {
+    const url = "/data.json";
+ const [marks, setMarks] = useState<MarksData[]>([]);
+ const [loading, setLoading] = useState<boolean>(true);
+ const [error, setError] = useState<string | null>(null);
+
+ useEffect(() => {
+  const fetchMarks = async () => {
+   try {
+    const response = await fetch(url);
+    if (!response.ok) {
+     throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const result = await response.json();
+    setMarks(result);
+   } catch (error) {
+    setError(error instanceof Error ? error.message : "An error occurred");
+   } finally {
+    setLoading(false);
+   }
+  };
+
+  fetchMarks();
+ }, []);
+
+ return { marks, loading, error };
+};
+
+export default useFetchMarks;
+```
 
 ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
-
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
+I would continue practicing creating & customizing styled-components in React.
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
+- [Scaffolding Your First Vite Project](https://vite.dev/guide/#scaffolding-your-first-vite-project) - This helped me setup my 1st Vite + React project
+- [CSS Gradients](https://www.w3schools.com/css/css3_gradients.asp) - This helped me create the required gradient effect
+- [Theming in Styled Components](https://styled-components.com/docs/advanced#theming) - This helped me in creating a custom theme for my project
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
-
-**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
-
-## Acknowledgments
-
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
-
-**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.**
+- Frontend Mentor - [@snigdha-sukun](https://www.frontendmentor.io/profile/snigdha-sukun)
