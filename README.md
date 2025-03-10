@@ -224,6 +224,8 @@ const useFetchMarks = () => {
 export default useFetchMarks;
 ```
 
+I learned how to use the `\public` folder for accessing static files.
+
 ### Continued development
 
 I would continue practicing creating & customizing styled-components in React.
